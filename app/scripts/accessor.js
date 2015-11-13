@@ -6,20 +6,29 @@ loop through all users and get who they are following
 if a user follows another user in the seen users, add an edge
  */
 exports.getFollowNetwork = function(user_id, callback){
-  var api_calls = [];
+
   //get the original users follows
   instawrapper.getFollows(user_id).then(function(response){
+    var users = {};
+    var api_calls = [];
     // for every person the original user is following
     _.each(response.data, function(user){
       // get all the followers for the user
-      api_calls.push(instawrapper.getFollows(user.id))
-    });
-    Promise.all(api_calls).then(function(output) {
-      var users = {};
-      _.each(output, function(output1){
-        users[output1.id] = output1;
+
+      var call = instawrapper.getFollows(user.id)
+      .then(function(response2){
+          users[user.id] = user;
+
+          user.followers = [];
+          _.each(response2.data, function(user2){
+            user.followers.push(user2.id);
+          });
       });
-      console.log(users)
+
+      api_calls.push(call);
+    });
+    Promise.all(api_calls).then(function() {
+      callback(users);
     });
   })
     .catch(function(err){
