@@ -21,7 +21,6 @@ exports.transform = function(callback){
       _.each(user.follows, function(followed){
         //if followed is found in nodes, we create an edge between user.id and the followed node we found
         var followNode = _.findWhere(nodes, {id: followed});
-        console.log('node found ', followNode);
         if(followNode){
           edges.push({source: _.indexOf(nodes, _.findWhere(nodes, {id: user.id})), target: _.indexOf(nodes, followNode), value: 1})
         }
