@@ -22,9 +22,9 @@ app.on('window-all-closed', function() {
 app.on('ready', function() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    'width': 1024,
+    'width': 1050,
     'height': 768,
-    'min-width': 1024,
+    'min-width': 1050,
     'min-height': 768,
     'auto-hide-menu-bar': true,
     'center': true
