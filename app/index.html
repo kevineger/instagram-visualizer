@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <title>Instagram Visualizer</title>
     <link rel="stylesheet" href="css/app.css">
-
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/librequire('./scripts/instagram-d3');s/jquery/1.11.3/jquery.min.js"></script>
-
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
 
@@ -22,7 +19,7 @@
     <div class="row">
         <div class="col-md-4 left-panel" id="">
             <div class="col-md-12 panel vert-offset-10">
-                <div class="col-md-10 col-md-offset-1 vert-offset-10">
+                <div class="col-md-12 vert-offset-10">
                     <ul class="nav nav-pills">
                         <li class="active"><a href="#">Login</a></li>
                         <li class="inactive"><a href="#">Logout</a></li>
@@ -43,9 +40,47 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-12 panel">
+                <div class="col-md-10 col-md-offset-1">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Value</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Something</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Something</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Something</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Something</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Something</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>Something</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         <div class="col-md-8 right-panel">
-            <h2 class="col-md-10 col-md-offset-1 pacifico text-center">Instagram Visualizer</h2>
+            <h1 class="col-md-10 col-md-offset-1 pacifico text-center">Instagram Visualizer</h1>
             <div class="col-md-10 col-md-offset-1">
                 <div class="graph"  id="graph">
                 </div>

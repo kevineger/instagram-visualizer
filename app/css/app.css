@@ -4,7 +4,6 @@
     color: white;
 }
 body{
-    background-color: lightgray;
     overflow-x: hidden;
 }
 .left-panel{
@@ -13,8 +12,6 @@ body{
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     font-size: 12px;
-}
-.left-panel > input{
     color: black;
 }
 .vert-offset-10{
@@ -29,9 +26,11 @@ body{
     background-color: #125688;
 }
 #graph{
-    height: 50vh;
+    height: 80vh;
 }
-
+#data-section{
+    overflow-y: auto;
+}
 /* graph style */
 .node {
   stroke: #fff;
