@@ -1,7 +1,6 @@
-var accessor = require('./scripts/accessor.js');
+var transform = require('./scripts/transformers/d3Transformer');
 
 
-
-accessor.getFollowNetwork(1627721343, function(data){
+transform.transform(function(data){
    console.log(data);
 });
