@@ -2,7 +2,7 @@ var accessor = require('./../accessor');
 var _ = require('underscore');
 
 function getNode(userWithFollower){
-  return {name: userWithFollower.full_name, id: userWithFollower.id}
+  return {name: userWithFollower.username, id: userWithFollower.id}
 }
 
 exports.transform = function(callback){
@@ -12,16 +12,18 @@ exports.transform = function(callback){
 
     // put all the base nodes into nodes
     _.each(usersWithFollowers, function(user){
-      nodes.push(getNode(user));
+      var node = getNode(user);
+      nodes.push(node);
     });
 
     //loop through all the followers and check if they exist, if the id is found in our nodes array, create an edge
     _.each(usersWithFollowers, function(user){
-      _.each(usersWithFollowers.follows, function(followed){
+      _.each(user.follows, function(followed){
         //if followed is found in nodes, we create an edge between user.id and the followed node we found
         var followNode = _.findWhere(nodes, {id: followed});
+        console.log('node found ', followNode);
         if(followNode){
-          edges.push({source: _.indexOf(nodes, user), target: _.indexOf(nodes, followNode), value: 1})
+          edges.push({source: _.indexOf(nodes, _.findWhere(nodes, {id: user.id})), target: _.indexOf(nodes, followNode), value: 1})
         }
       });
     });
