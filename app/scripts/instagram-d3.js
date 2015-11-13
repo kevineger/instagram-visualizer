@@ -1,7 +1,9 @@
 var d3 = require('d3');
 
-var width = 960,
-    height = 500;
+
+var selection = d3.select("#graph");
+width = selection[0][0].clientWidth;
+height = 500;
 
 var color = d3.scale.category20();
 

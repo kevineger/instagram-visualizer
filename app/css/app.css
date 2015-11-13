@@ -28,6 +28,9 @@ body{
     color: white;
     background-color: #125688;
 }
+#graph{
+    height: 50vh;
+}
 
 /* graph style */
 .node {
