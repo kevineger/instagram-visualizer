@@ -1,4 +1,4 @@
 
-exports.transform(user_id, depth){
+exports.transform = function(user_id, depth){
 
 }
