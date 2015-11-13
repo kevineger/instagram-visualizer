@@ -1,12 +1,95 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="UTF-8">
     <title>Instagram Visualizer</title>
-  </head>
-  <body>
-    <h1>Sup ffffgggtzzz</h1>
-    We are using Node.js <script>document.write(process.version)</script>
-    and Electron <script>document.write(process.versions['electron'])</script>.
-  </body>
+    <link rel="stylesheet" href="css/app.css">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/librequire('./scripts/instagram-d3');s/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4 left-panel" id="">
+            <div class="col-md-12 panel vert-offset-10">
+                <div class="col-md-12 vert-offset-10">
+                    <ul class="nav nav-pills">
+                        <li class="active"><a href="#">Login</a></li>
+                        <li class="inactive"><a href="#">Logout</a></li>
+                    </ul>
+                </div>
+                <div class="vert-offset-10 col-md-10 col-md-offset-1">
+                    <div class="input-group">
+                        <label class="vert-offset-10">Username</label>
+                        <input type="text" class="form-control">
+                        <br>
+                        <label>Range</label>
+                        <input type="range"  name="points" min="0" max="10">
+                        <br>
+                        <label>Minimum Likes For Edge</label>
+                        <input type="range"  name="points" min="0" max="10">
+                        <button type="button" class="vert-offset-10 btn btn-primary">Submit</button>
+                        <br>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 panel">
+                <div class="col-md-10 col-md-offset-1">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Value</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Something</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Something</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Something</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Something</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Something</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>Something</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 right-panel">
+            <h1 class="col-md-10 col-md-offset-1 pacifico text-center">Instagram Visualizer</h1>
+            <div class="col-md-10 col-md-offset-1">
+                <div class="graph"  id="graph">
+                </div>
+            </div>
+            <script>
+                require('./scripts/instagram-d3');
+            </script>
+        </div>
+      </div>
+    </div>
+</body>
 </html>

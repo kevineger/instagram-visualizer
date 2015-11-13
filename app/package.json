@@ -22,5 +22,10 @@
   "homepage": "https://github.com/kevineger/instagram-visualizer",
   "devDependencies": {
     "electron-prebuilt": "^0.34.0"
+  },
+  "dependencies": {
+    "d3": "^3.5.8",
+    "instawrapper": "0.0.3",
+    "underscore": "^1.8.3"
   }
 }
