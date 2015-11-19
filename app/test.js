@@ -1,7 +1,7 @@
 var transform = require('./scripts/transformers/d3Transformer');
+var accessor = require('./scripts/accessor');
 
-
-transform.transform(function(data){
-   console.log(data.edges.length/2);
-   console.log(data.nodes.length);
+console.log('test');
+accessor.getFollowNetwork(521475077,function(data){
+  console.log(data);
 });
