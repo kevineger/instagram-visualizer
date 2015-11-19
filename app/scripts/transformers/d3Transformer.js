@@ -10,8 +10,10 @@ function getNode(userWithFollower){
   };
 }
 
-exports.transform = function(callback){
-  accessor.getFollowNetwork(521475077,function(usersWithFollowers){
+exports.transform = function(access_token, callback){
+    console.log("test: getting network");
+  accessor.getFollowNetwork(521475077, access_token ,function(usersWithFollowers){
+      console.log("test: network got");
     var edges = [];
     var nodes = [];
 
