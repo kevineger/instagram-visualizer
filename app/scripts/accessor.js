@@ -5,10 +5,12 @@ get users the user_id is following
 loop through all users and get who they are following
 if a user follows another user in the seen users, add an edge
  */
-exports.getFollowNetwork = function(user_id, callback){
+exports.getFollowNetwork = function(user_id, access_token, callback){
+    console.log("test: authorizing... " + access_token) ;
+  instawrapper.authorize(access_token);
+    console.log("test: success");
 
-  instawrapper.authorize('521475077.20020af.0f0fd8dd50a44f0aa78e8eb295dd940d');
-  //get the original users follows
+    //get the original users follows
   instawrapper.getFollows(user_id).then(function(response){
     var users = {};
     var api_calls = [];
