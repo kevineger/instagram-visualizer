@@ -48,9 +48,15 @@ app.on('ready', function() {
   // Handle the response from instagram
   authWindow.webContents.on('did-get-redirect-request', function(event, oldUrl, newUrl) {
       try {
+
+        //Convert er' to a string
         raw_code = newUrl.toString();
+
+        //Grab the fucking code here.
         raw_code = raw_code.substr(newUrl.indexOf('?'));
         raw_code = raw_code.substr(newUrl.indexOf('='));
+
+        //TODO: remove shitty console logging.
         console.log(raw_code);
       }
       catch (Exception) {
