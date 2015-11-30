@@ -41,13 +41,15 @@ exports.getFollowNetwork = function(user_id, callback){
     });
 };
 exports.getNewsFeedLikeNetwork = function(user_id, callback) {
-  instawrapper.authorize('206496671.20020af.a9331aec5ec148479bbc7f3e56f47fef');
+  instawrapper.authorize('521475077.20020af.0f0fd8dd50a44f0aa78e8eb295dd940d');
   instawrapper.getFollows(user_id).then(function(users) {
     const userMediaQueries = users.map(function(user) {
-      return instawrapper.getRecentMedia(user.id, {amount: 3})
+      return instawrapper.getRecentMedia(user.id, {count: 3})
       .then(function(newsFeedPosts) {
         const posts = newsFeedPosts.data.map(function(post) {
-          if (post.likes.count < 1000) {
+          if (post.likes.count > 1000) {
+            console.log(post.id + 'has too many likes, not including in graph');
+          } else {
             return instawrapper.getLikesForMedia(post.id)
             .then(function(likes) {
               return {post_id: post.id, likes: likes};
@@ -60,7 +62,6 @@ exports.getNewsFeedLikeNetwork = function(user_id, callback) {
         return Promise.all(posts);
       })
       .then(function(posts) {
-        console.log(posts);
         return posts;
       })
       .catch(function(err) {
