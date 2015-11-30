@@ -42,3 +42,33 @@ exports.getFollowNetwork = function(user_id, callback){
       console.log('first callback');
     });
 };
+exports.getNewsFeedLikeNetwork = function(user_id, callback){
+  instawrapper.authorize('521475077.20020af.0f0fd8dd50a44f0aa78e8eb295dd940d');
+  instawrapper.getFollows(user_id).then(function(users){
+    var userMediaQueries = users.map(function(user){
+      return instawrapper.getRecentMedia(user.id)
+      .then(function(newsFeedPosts){
+          var posts = newsFeedPosts.data.map(function(post){
+            return instawrapper.getLikesForMedia(post.id)
+            .then(function(likes){
+                return {post_id: post.id, likes: likes};
+              })
+            .catch(function(err){
+              console.log(err);
+            });
+          });
+          return Promise.all(posts);
+        })
+      .then(function(posts){
+          console.log(posts);
+          return posts;
+        })
+      .catch(function(err){
+          console.log(err.stack);
+        })
+    });
+    Promise.all(userMediaQueries, function(queries){
+      callback(queries);
+    });
+  })
+}
