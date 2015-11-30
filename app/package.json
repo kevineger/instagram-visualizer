@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "d3": "^3.5.8",
-    "instawrapper": "0.0.7",
+    "instawrapper": "0.0.9",
     "underscore": "^1.8.3"
   }
 }
