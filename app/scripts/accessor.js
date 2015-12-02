@@ -5,9 +5,18 @@ get users the user_id is following
 loop through all users and get who they are following
 if a user follows another user in the seen users, add an edge
  */
-exports.getFollowNetwork = function(user_id, callback){
+
+const handlePromiseError = function(err) {
+  try {
+    console.log(err.response.body.error_type + ' for request ' + err.response.req.path);
+    console.log(err.response.body.error_message);
+  } catch (e) {
+    console.log(err);
+  }
+};
+exports.getFollowNetwork = function(user_id, callback) {
   instawrapper.authorize('521475077.20020af.0f0fd8dd50a44f0aa78e8eb295dd940d');
-  instawrapper.getFollows(user_id).then(function(data){
+  instawrapper.getFollows(user_id).then(function(data) {
     const users = {};
     const calls = [];
     // for every person the original user is following
@@ -27,7 +36,7 @@ exports.getFollowNetwork = function(user_id, callback){
           });
         })
         .catch(function handleError(err) {
-          console.log(err);
+          handlePromiseError(err);
         });
       calls.push(call);
     });
@@ -36,40 +45,50 @@ exports.getFollowNetwork = function(user_id, callback){
     });
   })
     .catch(function(err) {
-      console.log(err);
-      console.log('first callback');
+      handlePromiseError(err);
     });
 };
 exports.getNewsFeedLikeNetwork = function(user_id, callback) {
-  instawrapper.authorize('521475077.20020af.0f0fd8dd50a44f0aa78e8eb295dd940d');
+  instawrapper.authorize('206496671.20020af.c815ff28a2924433bcafd70e1bf3405c');
   instawrapper.getFollows(user_id).then(function(users) {
     const userMediaQueries = users.map(function(user) {
       return instawrapper.getRecentMedia(user.id, {count: 3})
       .then(function(newsFeedPosts) {
-        const posts = newsFeedPosts.data.map(function(post) {
+        const posts = newsFeedPosts.data.reduce(function(previous, post) {
           if (post.likes.count > 1000) {
             console.log(post.id + 'has too many likes, not including in graph');
           } else {
-            return instawrapper.getLikesForMedia(post.id)
+            const likeCall = instawrapper.getLikesForMedia(post.id)
             .then(function(likes) {
               return {post_id: post.id, likes: likes};
             })
             .catch(function(err) {
-              console.log(err);
+              handlePromiseError(err);
             });
+            previous.push(likeCall);
           }
-        });
+          return previous;
+        }, []);
         return Promise.all(posts);
       })
       .then(function(posts) {
         return posts;
       })
       .catch(function(err) {
-        console.log(err.stack);
+        handlePromiseError(err);
       });
     });
-    Promise.all(userMediaQueries, function(queries) {
-      callback(queries);
+    Promise.all(userMediaQueries).then(function(queries) {
+      const flattenedQueries = queries.reduce((previous, current) => {
+        if (typeof current !== 'undefined') {
+          _.each(current, (item) => { previous.push(item);});
+        }
+        return previous;
+      }, []);
+      callback(flattenedQueries);
     });
+  })
+  .catch(function(err) {
+    handlePromiseError(err);
   });
 };

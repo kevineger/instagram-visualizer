@@ -1,5 +1,5 @@
-
+const transformer = require('./scripts/transformers/feedNetworkTransformer');
 const accessor = require('./scripts/accessor');
-accessor.getNewsFeedLikeNetwork(521475077, function(data) {
+transformer.transform(function(data) {
   console.log(data);
 });
