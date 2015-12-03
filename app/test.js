@@ -1,7 +1,5 @@
-var transform = require('./scripts/transformers/d3Transformer');
-var accessor = require('./scripts/accessor');
-
-console.log('test');
-accessor.getFollowNetwork(521475077,function(data){
+const transformer = require('./scripts/transformers/feedNetworkTransformer');
+const accessor = require('./scripts/accessor');
+transformer.transform(function(data) {
   console.log(data);
 });
