@@ -17,22 +17,22 @@
 
 </head>
 <body>
-<div ng-app="myApp" class="container-fluid">
-    <div class="row" ng-controller="usersCtrl">
-        <div class="col-md-4 left-panel"  id="">
-            <div class="col-md-12 panel vert-offset-10">
-                <div class="col-md-12 vert-offset-10">
-                    <div class="col-md-12">
-                        <h3 class="text-center pacifico">Welcome!</h3>
-                        <h5 class="text-center">{{user.name}}</h5>
+    <div ng-app="myApp" class="container-fluid">
+        <div class="row" ng-controller="usersCtrl">
+            <div class="col-md-4 left-panel"  id="">
+                <div class="col-md-12 panel vert-offset-10">
+                    <div class="col-md-12 vert-offset-10">
+                        <div class="col-md-12">
+                            <h3 class="text-center pacifico">Welcome!</h3>
+                            <h5 class="text-center">{{user.name}}</h5>
+                        </div>
+                        <br>
+                        <ul class="col-md-12 nav nav-pills vert-offset-20">
+                            <li class="active"><a href="#">Login</a></li>
+                            <li class="inactive"><a href="#">Logout</a></li>
+                        </ul>
                     </div>
-                    <br>
-                    <ul class="col-md-12 nav nav-pills vert-offset-20">
-                        <li class="active"><a href="#">Login</a></li>
-                        <li class="inactive"><a href="#">Logout</a></li>
-                    </ul>
-                </div>
-                <div class="vert-offset-10 col-md-10 col-md-offset-1">
+                    <div class="vert-offset-10 col-md-10 col-md-offset-1">
                         <label class="vert-offset-10">First Name</label>
                         <input type="text" class="form-control" ng-model="user.name">
                         <br>
@@ -47,61 +47,61 @@
                         <button class="btn btn-primary" ng-click="addUser()">Add</button>
                         <br>
                     </div>
-            </div>
-            <div class="col-md-12 panel">
-                <div id="users" class="col-md-12">
-                    <table class="table table-striped" >
-                        <thead>
-                        <tr>
-                            <th>Person</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="user in users.reverse() ">
-                            <td class="well">
-                                <div class="col-md-5">
-                                    <img class="img-responsive img-circle" src="{{user.profile}}">
-                                </div>
-                                <div class="col-md-7">
-                                    <h5>{{user.name}}</h5>
-                                    <button class="btn" value="switch">Switch</button>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                </div>
+                <div class="col-md-12 panel">
+                    <div id="users" class="col-md-12">
+                        <table class="table table-striped" >
+                            <thead>
+                                <tr>
+                                    <th>Person</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="user in users.reverse() ">
+                                    <td class="well">
+                                        <div class="col-md-5">
+                                            <img class="img-responsive img-circle" src="{{user.profile}}">
+                                        </div>
+                                        <div class="col-md-7">
+                                            <h5>{{user.name}}</h5>
+                                            <button class="btn" value="switch">Switch</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-8 right-panel">
-            <h1 class="col-md-10 col-md-offset-1 pacifico text-center">Instagram Visualizer</h1>
-            <div class="col-md-10 col-md-offset-1">
-                <div class="graph" id="graph">
+            <div class="col-md-8 right-panel">
+                <h1 class="col-md-10 col-md-offset-1 pacifico text-center">Instagram Visualizer</h1>
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="graph" id="graph">
+                    </div>
                 </div>
+                <script>
+                    var authenticate = require('./scripts/auth');
+                </script>
             </div>
-            <script>
-                var authenticate = require('./scripts/auth');
-            </script>
         </div>
-      </div>
     </div>
 </body>
 
 <script>
-        var app = angular.module('myApp', []);
-        app.controller('usersCtrl', ['$scope', function($scope){
-            $scope.user = {
-                name: "",
-                filterOnLikes: "5",
-                filterOnFriends: "5",
-                userId: "",
-                profile: "assets/img/yong.jpg"
-            };
-            $scope.users = [];
+    var app = angular.module('myApp', []);
+    app.controller('usersCtrl', ['$scope', function($scope){
+        $scope.user = {
+            name: "",
+            filterOnLikes: "5",
+            filterOnFriends: "5",
+            userId: "",
+            profile: "assets/img/yong.jpg"
+        };
+        $scope.users = [];
 
-            $scope.addUser = function(){
-              $scope.users.push(angular.copy($scope.user));
-            };
-        }]);
+        $scope.addUser = function(){
+          $scope.users.push(angular.copy($scope.user));
+      };
+  }]);
 </script>
 </html>
