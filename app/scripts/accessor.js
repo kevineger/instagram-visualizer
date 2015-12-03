@@ -8,8 +8,12 @@ if a user follows another user in the seen users, add an edge
 
 const handlePromiseError = function(err) {
   try {
-    console.log(err.response.body.error_type + ' for request ' + err.response.req.path);
-    console.log(err.response.body.error_message);
+    if (err.response.body.error_type) {
+      console.log(err.response.body.error_type + ' for request ' + err.response.req.path);
+      console.log(err.response.body.error_message);
+    } else {
+      console.log(err);
+    }
   } catch (e) {
     console.log(err);
   }
@@ -42,6 +46,7 @@ exports.getFollowNetwork = function(user_id, callback) {
       calls.push(call);
     });
     return Promise.all(calls).then(function() {
+      console.log('trying to call callback');
       callback(users);
     });
   })

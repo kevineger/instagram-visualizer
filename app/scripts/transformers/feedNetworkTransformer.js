@@ -1,5 +1,8 @@
 const accessor = require('./../accessor');
 const _ = require('underscore');
+const instagram = require('instawrapper');
+console.log('authorizing');
+instagram.authorize('206496671.20020af.c815ff28a2924433bcafd70e1bf3405c');
 
 function getNode(userWithFollower) {
   return {
@@ -37,6 +40,7 @@ exports.transform = function(callback) {
         }
       });
     });
+    
     callback({nodes: nodes, edges: edges});
   });
 };
