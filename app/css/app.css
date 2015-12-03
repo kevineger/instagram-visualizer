@@ -1,10 +1,14 @@
 @import url(https://fonts.googleapis.com/css?family=Pacifico);
 .pacifico{
     font-family: Pacifico;
-    color: white;
 }
 body{
     overflow-x: hidden;
+    overflow-y: hidden;
+}
+#users{
+    height: 40vh;
+    overflow-y: auto !important; ;
 }
 .left-panel{
     height: 100vh;

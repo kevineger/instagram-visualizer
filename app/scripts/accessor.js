@@ -7,8 +7,6 @@ if a user follows another user in the seen users, add an edge
  */
 exports.getFollowNetwork = function(user_id, callback){
 
-  instawrapper.authorize('206496671.20020af.c815ff28a2924433bcafd70e1bf3405c');
-
   instawrapper.getFollows(user_id).then(function(data){
     var users = {};
     var inner_calls = [];

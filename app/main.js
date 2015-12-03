@@ -1,8 +1,6 @@
 var app = require('app');  // Module to control application life.
 const BrowserWindow = require('browser-window');  // Module to create native browser window.
 
-
-
 // Report crashes to our server.
 require('crash-reporter').start();
 
@@ -37,34 +35,6 @@ app.on('ready', function() {
 
   // Open the DevTools.
   mainWindow.openDevTools();
-
-  // Build the OAuth consent page URL
-  var authWindow = new BrowserWindow({ width: 800, height: 600, show: true, 'node-integration': false, 'always-on-top': true});
-  var authUrl = "https://api.instagram.com/oauth/authorize/?client_id=20020af689ea4d66a623067196c2987a&redirect_uri=http://localhost:8000&response_type=code";
-  authWindow.loadUrl(authUrl);
-  authWindow.show();
-
-   var raw_code = null;
-  // Handle the response from instagram
-  authWindow.webContents.on('did-get-redirect-request', function(event, oldUrl, newUrl) {
-      try {
-
-        //Convert er' to a string
-        raw_code = newUrl.toString();
-
-        //Grab the fucking code here.
-        raw_code = raw_code.substr(newUrl.indexOf('?'));
-        raw_code = raw_code.substr(newUrl.indexOf('='));
-
-        //TODO: remove shitty console logging.
-        console.log(raw_code);
-      }
-      catch (Exception) {
-        console.log(Exception);
-        //TODO: Something Useful Here
-      }
-  });
-
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
