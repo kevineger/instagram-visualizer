@@ -111,11 +111,12 @@
             $scope.addUser = function(uid){
               var usr = angular.copy($scope.user);
               usr.uid = uid;
-              usr.name = api.getMe().then(function(result){
-                  console.log("RESULT:" , result);
+              api.getMe().then(function(result){
+                  user.name = result.user.full_name;
+                  $scope.$apply(function(){
+                      $scope.users.push(usr);
+                  });
               });
-              $scope.users.push(usr);
-              $scope.activeUser = usr
             };
             authenticate.afterAuthCallback(function(uid){
                 console.log('callback triggered');
