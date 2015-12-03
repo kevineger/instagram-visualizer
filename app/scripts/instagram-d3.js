@@ -1,5 +1,5 @@
 var d3 = require('d3'),
-    transformer = require('./transformers/d3Transformer');
+    transformer = require('./transformers/followNetworkTransformer');
 
 transformer.transform( function(data) {
   var selection = d3.select("#graph");
