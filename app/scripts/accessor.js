@@ -14,8 +14,9 @@ const handlePromiseError = function(err) {
     console.log(err);
   }
 };
+
+// build the follow network
 exports.getFollowNetwork = function(user_id, callback) {
-  instawrapper.authorize('521475077.20020af.0f0fd8dd50a44f0aa78e8eb295dd940d');
   instawrapper.getFollows(user_id).then(function(data) {
     const users = {};
     const calls = [];
@@ -49,7 +50,6 @@ exports.getFollowNetwork = function(user_id, callback) {
     });
 };
 exports.getNewsFeedLikeNetwork = function(user_id, callback) {
-  instawrapper.authorize('206496671.20020af.c815ff28a2924433bcafd70e1bf3405c');
   instawrapper.getFollows(user_id).then(function(users) {
     const userMediaQueries = users.map(function(user) {
       return instawrapper.getRecentMedia(user.id, {count: 3})
