@@ -1,5 +1,5 @@
 var vis = require('vis');
-var transformer = require('./transformers/d3Transformer');
+var transformer = require('./transformers/followNetworkTransformer');
 
 var imgPath= __dirname + '/../assets/img/yong.jpg';
 
