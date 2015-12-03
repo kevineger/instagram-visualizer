@@ -26,7 +26,7 @@
   "dependencies": {
     "angular": "^1.4.8",
     "d3": "^3.5.8",
-    "instawrapper": "0.0.6",
+    "instawrapper": "0.0.10",
     "underscore": "^1.8.3",
     "vis": "^4.9.0",
     "xmlbuilder": "^4.1.0"

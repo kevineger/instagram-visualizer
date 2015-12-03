@@ -1,12 +1,12 @@
 var vis = require('vis');
-var transformer = require('./transformers/d3Transformer');
+var transformer = require('./transformers/followNetworkTransformer');
 
 var imgPath= __dirname + '/../assets/img/yong.jpg';
 
 module.exports.vis = function(token){
     console.log("test: instavis running");
 
-    transformer.transform(token, function(dataForGraph){
+    transformer.transform(function(dataForGraph){
         console.log("test: inner");
         // create an array with nodes
         var nodes = new vis.DataSet(dataForGraph.nodes);

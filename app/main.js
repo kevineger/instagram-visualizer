@@ -1,5 +1,6 @@
 var app = require('app');  // Module to control application life.
 const BrowserWindow = require('browser-window');  // Module to create native browser window.
+const instagram = require('instawrapper');
 
 // Report crashes to our server.
 require('crash-reporter').start();
@@ -26,7 +27,7 @@ app.on('ready', function() {
     'height': 768,
     'min-width': 1050,
     'min-height': 768,
-    'auto-hide-menu-bar': true,
+    'auto-hide-menu-bar': true, 
     'center': true
   });
 
@@ -43,4 +44,5 @@ app.on('ready', function() {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+
 });

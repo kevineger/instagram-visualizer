@@ -1,7 +1,5 @@
-var transform = require('./scripts/transformers/d3Transformer');
-
-
-transform.transform(function(data){
-   console.log(data.edges.length/2);
-   console.log(data.nodes.length);
+const transformer = require('./scripts/transformers/feedNetworkTransformer');
+const accessor = require('./scripts/accessor');
+transformer.transform(function(data) {
+  console.log(data);
 });
