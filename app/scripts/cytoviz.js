@@ -6,6 +6,13 @@ module.exports.vis = function(token){
 	console.log("Hit Nodes Dump");
 	instwrapper.authorize(token);
 	transformer.transform(function(data) {
+		var options = {
+			name: 'cose',				
+			padding: 12,
+			animate: true,
+			gravity: 80,
+			animateThreshold: 250
+		};
 		var cy = cytoscape({
 			container: document.getElementById('graph'),
 		
@@ -13,13 +20,8 @@ module.exports.vis = function(token){
 				nodes: data.nodes,
 				edges: data.edges,
 			},
-			layout: {
-				name: 'cose',
-				padding: 12
-			},
 			style: cytoscape.stylesheet().selector('node').css({'background-image':'http://cosc.ok.ubc.ca/__shared/assets/gao9404.jpg','background-fit':'cover'})
 		});	
-		console.log("Jake has a vagina");
-		console.log(JSON.stringify(data.nodes, null, 4));
+		cy.layout(options);
 	})
 }

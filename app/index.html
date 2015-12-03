@@ -113,6 +113,7 @@
               usr.uid = userObject.access_token;
               usr.name = userObject.full_name;
               usr.profile = userObject.profile_picture;
+              $scope.users.push(usr);
               console.log('added usr');
             };
             authenticate.afterAuthCallback(function(userObject){
