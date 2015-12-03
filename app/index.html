@@ -3,6 +3,7 @@
 <head>
     <script>
         require('angular');
+
     </script>
     <meta charset="UTF-8">
     <title>Instagram Visualizer</title>
@@ -11,9 +12,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
-
-
-
 </head>
 <body>
 <div ng-app="myApp" class="container-fluid">
@@ -24,10 +22,12 @@
                     <div class="col-md-12">
                         <h3 class="text-center pacifico">Welcome!</h3>
                         <h5 class="text-center">{{user.name}}</h5>
+                        <h5 class="text-center" >{{uid}}</h5>
+                        <h5 class="text-center" ng-hide="uid" >Loading...</h5>
                     </div>
                     <br>
                     <ul class="col-md-12 nav nav-pills vert-offset-20">
-                        <li class="active"><a href="#">Login</a></li>
+                        <li class="active"><button ng-click="login()">Login</button></li>
                         <li class="inactive"><a href="#">Logout</a></li>
                     </ul>
                 </div>
@@ -63,7 +63,8 @@
                                 </div>
                                 <div class="col-md-7">
                                     <h5>{{user.name}}</h5>
-                                    <button class="btn" value="switch">Switch</button>
+                                    <small>{{user.uid}}</small>
+                                    <button class="btn" value="switch" ng-click="switchUser(user)">Switch</button>
                                 </div>
                             </td>
                         </tr>
@@ -79,7 +80,7 @@
                 </div>
             </div>
             <script>
-                var authenticate = require('./scripts/auth');
+                
             </script>
         </div>
       </div>
@@ -89,17 +90,44 @@
 <script>
         var app = angular.module('myApp', []);
         app.controller('usersCtrl', ['$scope', function($scope){
+
+            var authenticate = require('./scripts/auth');
+            var api = require('instawrapper');
+
             $scope.user = {
                 name: "",
                 filterOnLikes: "5",
                 filterOnFriends: "5",
-                userId: "",
-                profile: "assets/img/yong.jpg"
+                profile: "assets/img/yong.jpg",
+                graph: "",
+                uid: ""
             };
             $scope.users = [];
-
-            $scope.addUser = function(){
-              $scope.users.push(angular.copy($scope.user));
+            $scope.activeUser = null;
+            $scope.switchUser = function(user){
+                $scope.activeUser = user;
+                authenticate.draw(user.uid);
+            };
+            $scope.addUser = function(uid){
+              var usr = angular.copy($scope.user);
+              usr.uid = uid;
+              usr.name = api.getMe().then(function(result){
+                  console.log("RESULT:" , result);
+              });
+              $scope.users.push(usr);
+              $scope.activeUser = usr
+            };
+            authenticate.afterAuthCallback(function(uid){
+                console.log('callback triggered');
+                console.log('user in the after callback', uid);
+                $scope.uid = uid;
+                $scope.$apply(function(){
+                    $scope.addUser(uid);
+                });
+                authenticate.draw(uid);
+            });
+            $scope.login = function(){
+                authenticate.login();
             };
         }]);
 </script>
