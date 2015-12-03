@@ -1,9 +1,9 @@
 const BrowserWindow = require('remote').require('browser-window');
-var vis = require('../scripts/instavis');
+var vis = require('./cytoviz');
 var rp = require('request-promise');
+var instawrapper = require('instawrapper');
 
 // Build the OAuth consent page URL
-
 var authUrl = "https://api.instagram.com/oauth/authorize/?client_id=20020af689ea4d66a623067196c2987a&redirect_uri=http%3A%2F%2Flocalhost%3A8000&response_type=code";
 
 var authCallback;
@@ -11,6 +11,7 @@ var authCallback;
 function setUserID(uid){
     userID = uid;
 }
+
 
 function login(){
     var authWindow = new BrowserWindow({ width: 800, height: 600, show: true, 'node-integration': false, 'always-on-top': true});
@@ -60,12 +61,9 @@ function login(){
         };
         rp(options)
             .then(function (parsedBody) {
-                console.log("test: " + parsedBody.access_token);
-                console.log('pbody', parsedBody);
-                var uid = parsedBody.access_token;
-                console.log('uid' , uid);
                 authWindow.close();
-                authCallback(uid)
+                parsedBody.user.access_token = parsedBody.access_token;
+                authCallback(parsedBody.user);
             })
             .catch(function (err) {
                 console.log(err);
@@ -76,7 +74,6 @@ function login(){
 exports.login = login;
     
 function draw(uid){
-    console.log("USERID: " + uid);
     vis.vis(uid);
 }
 exports.afterAuthCallback = function(callback){

@@ -20,8 +20,8 @@ const handlePromiseError = function(err) {
 };
 
 // build the follow network
-exports.getFollowNetwork = function(user_id, callback) {
-  instawrapper.getFollows(user_id).then(function(data) {
+exports.getFollowNetwork = function(callback) {
+  instawrapper.getFollows().then(function(data) {
     const users = {};
     const calls = [];
     // for every person the original user is following
@@ -54,8 +54,8 @@ exports.getFollowNetwork = function(user_id, callback) {
       handlePromiseError(err);
     });
 };
-exports.getNewsFeedLikeNetwork = function(user_id, callback) {
-  instawrapper.getFollows(user_id).then(function(users) {
+exports.getNewsFeedLikeNetwork = function(callback) {
+  instawrapper.getFollows().then(function(users) {
     const userMediaQueries = users.map(function(user) {
       return instawrapper.getRecentMedia(user.id, {count: 3})
       .then(function(newsFeedPosts) {

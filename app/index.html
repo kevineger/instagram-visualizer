@@ -108,24 +108,20 @@
                 $scope.activeUser = user;
                 authenticate.draw(user.uid);
             };
-            $scope.addUser = function(uid){
+            $scope.addUser = function(userObject){
               var usr = angular.copy($scope.user);
-              usr.uid = uid;
-              api.getMe().then(function(result){
-                  user.name = result.user.full_name;
-                  $scope.$apply(function(){
-                      $scope.users.push(usr);
-                  });
-              });
+              usr.uid = userObject.access_token;
+              usr.name = userObject.full_name;
+              usr.profile = userObject.profile_picture;
+              console.log('added usr');
             };
-            authenticate.afterAuthCallback(function(uid){
+            authenticate.afterAuthCallback(function(userObject){
                 console.log('callback triggered');
-                console.log('user in the after callback', uid);
-                $scope.uid = uid;
                 $scope.$apply(function(){
-                    $scope.addUser(uid);
+                    $scope.addUser(userObject);
                 });
-                authenticate.draw(uid);
+                console.log('acces token', userObject.access_token)
+                authenticate.draw(userObject.access_token);
             });
             $scope.login = function(){
                 authenticate.login();
