@@ -24,6 +24,8 @@
                         <h5 class="text-center">{{user.name}}</h5>
                         <h5 class="text-center" >{{uid}}</h5>
                         <h5 class="text-center" ng-hide="uid" >Loading...</h5>
+                        <h5 class="text-center"><a href="" ng-click="changeLayout('circle')" >circle</a></h5>
+                        <h5 class="text-center"><a href="" ng-click="changeLayout('grid')" >circle</a></h5>
                     </div>
                     <br>
                     <ul class="col-md-12 nav nav-pills vert-offset-20">
@@ -89,6 +91,7 @@
 
 <script>
         var app = angular.module('myApp', []);
+        var vis = require('./scripts/cytoviz')
         app.controller('usersCtrl', ['$scope', function($scope){
 
             var authenticate = require('./scripts/auth');
@@ -127,6 +130,9 @@
             $scope.login = function(){
                 authenticate.login();
             };
+            $scope.changeLayout = function(layout){
+                vis.changeLayout(layout);
+            }
         }]);
 </script>
 </html>
