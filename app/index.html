@@ -26,7 +26,7 @@
                     </div>
                     <br>
                 </div>
-                <div ng-repeat="layout in layouts" class="vert-offset-10 col-md-10 col-md-offset-1">
+                <div ng-repeat="layout in layouts" ng-show="stats.centrality.image" class="vert-offset-10 col-md-10 col-md-offset-1">
                     <button ng-click="changeLayout(layout.layout)"  class="btn btn-default col-md-8 col-md-offset-2" >{{layout.name}}</button>
                 </div>
                 <div class="vert-offset-10 col-md-10 col-md-offset-1">
@@ -45,14 +45,45 @@
                     </button>
                 </div>
             </div>
+
+            <div class="col-md-12 panel" ng-show="stats.centrality.image">
+                <div id="users" class="col-md-12">
+                    <table class="table table-striped" >
+                        <thead>
+                        <tr>
+                            <th>Stats</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="well">
+                                <div class="col-md-5">
+                                    <img class="img-responsive img-circle" src="{{stats.centrality.image}}">
+                                </div>
+                                <div class="col-md-7">
+                                    <h5>Centrality: {{stats.centrality.user}}</h5>
+                                    <small>Value: {{stats.centrality.value}}</small>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                        <td class="well">
+                                <div class="col-md-5">
+                                    <img class="img-responsive img-circle" src="{{stats.degree.image}}">
+                                </div>
+                                <div class="col-md-7">
+                                    <h5>Degree: {{stats.degree.user}}</h5>
+                                    <small>Value: {{stats.degree.value}}</small>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         <div class="col-md-8 right-panel">
             <h1 class="col-md-10 col-md-offset-1 pacifico text-center">Instagram Visualizer</h1>
-            <div class="col-md-10 col-md-offset-1">
-                <div class="stats col-md-8 col-md-offset-2" id="stats">
-                    <h2></h2>
-                </div>
-            </div>
             <div class="col-md-10 col-md-offset-1">
                 <div class="graph" id="graph"></div>
             </div>
@@ -86,12 +117,10 @@
 
             var authenticate = require('./scripts/auth');
             var api = require('instawrapper');
-            
             $scope.graphs = [
                 'Feed',
                 'Follow'
             ];
-
             $scope.layouts =
                 [
                 {
@@ -120,21 +149,19 @@
                     layout: 'random'
                 }
                 ];
-
             $scope.user = {
                 name: "",
                 profile: "assets/img/yong.jpg",
                 graph: "",
                 uid: ""
             };
-
+            $scope.stats = "";
             $scope.currentUser = angular.copy($scope.user);
             $scope.users = [];
             $scope.switchUser = function(user){
                 $scope.currentUser = user;
                 authenticate.draw(user.uid);
             };
-
             $scope.addUser = function(userObject){
               var usr = angular.copy($scope.user);
               usr.uid = userObject.access_token;
@@ -149,16 +176,19 @@
                 $scope.$apply(function(){
                     $scope.addUser(userObject);
                 });
-                console.log('acces token', userObject.access_token);
+                console.log('access token', userObject.access_token);
                 
             });
             vis.afterDrawCallback(function(){
+                $scope.$apply(function(){
+                    $scope.stats = vis.getStats();
+                });
                 console.log('done drawing');
             });
             $scope.draw = function(){
-               token = $scope.cuser
-               authenticate.draw(token, $scope.graph); 
-            }
+               token = $scope.cuser;
+               authenticate.draw(token, $scope.graph);
+            };
             $scope.login = function(){
                 authenticate.login();
             };
