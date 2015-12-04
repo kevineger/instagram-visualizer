@@ -3,7 +3,7 @@ var t1 = require('./transformers/cytoviztransformer');
 var t2 = require('./transformers/cytoviztransformer2');
 var instwrapper = require('instawrapper');
 var _ = require('underscore');
-
+var afterDrawCallback;
 var graph;
 module.exports.vis = function(token, graphType) {
 	console.log("Hit Nodes Dump");
@@ -31,6 +31,7 @@ module.exports.vis = function(token, graphType) {
 				edges: data.edges,
 			},
 			layout: options,
+			ready: afterDrawCallback,
 			style: [ // the stylesheet for the graph
 			{
 				selector: 'node',
@@ -102,4 +103,7 @@ module.exports.changeLayout = function(layout) {
 	console.log(layout);
 	graph.layout({name: layout});
 	console.log(vis.getStats());
+}
+exports.afterDrawCallback = function(callback){
+	afterDrawCallback = callback;
 }

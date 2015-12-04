@@ -152,6 +152,9 @@
                 console.log('acces token', userObject.access_token);
                 
             });
+            vis.afterDrawCallback(function(){
+                console.log('done drawing');
+            });
             $scope.draw = function(){
                token = $scope.cuser
                authenticate.draw(token, $scope.graph); 
