@@ -100,6 +100,9 @@
                     </ul>
                 </div>
                 <img src="assets/img/loading-gif.gif" width="100px" style="top: 45%; -webkit-opacity: 0.5;position: absolute;right: 45%;" ng-show="graphLoading">
+                <div ng-show="yongShow" style="position:absolute; top: 50%;left: 25%; width: 50%; text-decoration: blink; text-align:center; background-color: black; font-weight: 500; border-radius: 50px;" >
+                  <h1 style="color: #00FF00; font-family: monospace; text-decoration: blink; padding-top: 100px;padding: 50px">Yong mode activated</h1>
+                </div>
             </div>
 
         </div>
@@ -129,7 +132,7 @@
         // shows the loading thing on the graph
        
         
-        app.controller('usersCtrl', ['$scope', function($scope){
+        app.controller('usersCtrl', ['$scope', '$timeout', function($scope, $timeout){
 
             var authenticate = require('./scripts/auth');
             var api = require('instawrapper');
@@ -224,8 +227,17 @@
                 });
               
             });
+            $scope.yongMode = false;
+            
             $scope.toggleYongMode = function(){
               vis.toggleYongMode();
+              $scope.yongMode = !$scope.yongMode;           
+              if($scope.yongMode == true){
+                $scope.yongShow = true;
+                $timeout(function(){
+                  $scope.yongShow = false
+                }, 2000)
+              }
             }
             $scope.draw = function(){
                token = $scope.cuser;
