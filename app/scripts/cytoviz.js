@@ -1,7 +1,10 @@
 var cytoscape = require('cytoscape');
 var transformer = require('./transformers/cytoviztransformer');
 var instwrapper = require('instawrapper');
+var _ = require('underscore');
+
 var graph;
+
 module.exports.vis = function(token) {
 	console.log("Hit Nodes Dump");
 	instwrapper.authorize(token);
@@ -41,9 +44,52 @@ module.exports.vis = function(token) {
 			}
 			]
 		});	
-
 	})
 }
+
+module.exports.getStats = function() {
+
+	return {
+		centrality: getBetweennessCentrality(),
+		degree: getHighestDegree()
+	};
+}
+
+function getBetweennessCentrality() {
+	var bc = graph.$().bc();
+	var bCentralities = [];
+	graph.nodes().forEach(function(node) {
+		bCentralities.push({
+			node: node,
+			betweeness: bc.betweenness('#' + node.data("id"))
+		});
+	});
+	highestCentrality = _.max(bCentralities, function(c) {return c.betweeness});
+
+	return {
+		user: highestCentrality.node.data("name"),
+		value: highestCentrality.betweeness
+	}
+}
+
+function getHighestDegree() {
+	var degrees = [];
+	graph.nodes().forEach(function(node){
+		degrees.push({
+			node: node,
+			degree: node.degree()
+		});
+	});
+
+	highestDegree = _.max(degrees, function(c) {return c.degree});
+
+	return {
+		user: highestDegree.node.data("name"),
+		value: highestDegree.degree
+	}
+}
+
 module.exports.changeLayout = function(layout) {
 	graph.layout({name: layout});
+	console.log(vis.getStats());
 }
