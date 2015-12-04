@@ -29,18 +29,18 @@
                 <div ng-repeat="layout in layouts" ng-show="stats.centrality.image" class="vert-offset-10 col-md-10 col-md-offset-1">
                     <button ng-click="changeLayout(layout.layout)"  class="btn btn-default col-md-8 col-md-offset-2" >{{layout.name}}</button>
                 </div>
-                <div class="vert-offset-10 col-md-10 col-md-offset-1">
+                <div class="vert-offset-10 col-md-10 col-md-offset-1" ng-show="users.length > 0 ">
                     <select ng-model="graph" class="form-control">
                         <option ng-repeat="graph in graphs" value="{{graph}}">{{graph}}</option>
                     </select>
                 </div>
-                <div class="vert-offset-f10 col-md-10 col-md-offset-1">
+                <div class="vert-offset-f10 col-md-10 col-md-offset-1" ng-show="users.length >0">
                     <select ng-model="cuser" class="form-control">
                         <option ng-repeat="user in users" value="{{user.uid}}">{{user.name}}</option>
                     </select>
                 </div>
-                <div class="vert-offset-10 col-md-10 col-md-offset-1">
-                    <button class="btn btn-blo" ng-click="draw()">
+                <div class="vert-offset-10 col-md-10 col-md-offset-1" ng-show="users.length >0">
+                    <button class="btn btn-block btn-default" ng-click="draw()">
                         Graph!
                     </button>
                 </div>
@@ -84,15 +84,17 @@
         </div>
         <div class="col-md-8 right-panel">
             <h1 class="col-md-10 col-md-offset-1 pacifico text-center">Instagram Visualizer</h1>
-            <div class="col-md-12">
-                <div class="graph" id="graph" style="positon: relative">
-                    <div id="tooltip" ng-show="nodeToolTip" style="z-index: 50; text-align: center; position: absolute; background: rgba(80, 80, 80, 0.57); right: 5px; top: 5px;height: 300px; width: 250px;">
-                        <img src="{{nodeToolTip.image}}" class="img-circle" style="padding-top: 10px;">
-                        <ul style="text-align: left">
-                            <li ng-repeat="tip in nodeToolTip.tips">{{tip.name }} : {{tip.value}}</li>
-                        </ul>
-                    </div>
+            <div class="col-md-12" style="position: relative; height: 500px">
+                <div class="graph" id="graph" style="position: absolute">
+
                 </div>
+                <div id="tooltip" ng-show="nodeToolTip" style="z-index: 50; text-align: center; position: absolute; background: rgba(80, 80, 80, 0.57); right: 5px; top: 5px;height: 300px; width: 250px;">
+                    <img src="{{nodeToolTip.image}}" class="img-circle" style="padding-top: 10px;">
+                    <ul style="text-align: left">
+                        <li ng-repeat="tip in nodeToolTip.tips">{{tip.name }} : {{tip.value}}</li>
+                    </ul>
+                </div>
+                <img src="assets/img/loading-gif.gif" width="100px" style="top: 45%; -webkit-opacity: 0.5;position: absolute;right: 45%;" ng-show="graphLoading">
             </div>
         </div>
       </div>
@@ -117,6 +119,10 @@
         var app = angular.module('myApp', []);
         var vis = require('./scripts/cytoviz');
         var _ = require('underscore');
+        
+        // shows the loading thing on the graph
+       
+        
         app.controller('usersCtrl', ['$scope', function($scope){
 
             var authenticate = require('./scripts/auth');
@@ -126,6 +132,8 @@
                 'Feed',
                 'Follow'
             ];
+            $scope.graphLoading = false;
+            $scope.graph = $scope.graphs[1];
             $scope.layouts =
                 [
                 {
@@ -180,6 +188,9 @@
                 console.log('callback triggered');
                 $scope.$apply(function(){
                     $scope.addUser(userObject);
+                    if(!$scope.cuser){
+                      $scope.cuser = userObject.access_token;
+                    }
                 });
                 console.log('access token', userObject.access_token);
                 
@@ -188,8 +199,12 @@
                 $scope.$apply(function(){
                     $scope.stats = vis.getStats();
                 });
+                $scope.$apply(function(){
+                    $scope.graphLoading = false;
+                });
+                //setup a on hover for this new graph
                 vis.onNodeHover(function(event){
-                    console.log(event);
+                  console.log('mouseover');
                     var target = event.cyTarget;
                     $scope.$apply(function(){
                         $scope.nodeToolTip = {}
@@ -201,11 +216,12 @@
                         $scope.nodeToolTip.image = target.data('image')
                     });
                 });
-                console.log('done drawing');
+              
             });
             $scope.draw = function(){
                token = $scope.cuser;
                $scope.nodeToolTip = false;
+               $scope.graphLoading = true;
                authenticate.draw(token, $scope.graph);
             };
             $scope.login = function(){
