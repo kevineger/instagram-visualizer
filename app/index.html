@@ -50,7 +50,8 @@
             <h1 class="col-md-10 col-md-offset-1 pacifico text-center">Instagram Visualizer</h1>
             <div class="col-md-10 col-md-offset-1">
                 <div class="stats col-md-8 col-md-offset-2" id="stats">
-                    <h2></h2>
+                    <h2>Degree: {{stats.centrality.user}}</h2>
+
                 </div>
             </div>
             <div class="col-md-10 col-md-offset-1">
@@ -86,12 +87,10 @@
 
             var authenticate = require('./scripts/auth');
             var api = require('instawrapper');
-            
             $scope.graphs = [
                 'Feed',
                 'Follow'
             ];
-
             $scope.layouts =
                 [
                 {
@@ -120,21 +119,20 @@
                     layout: 'random'
                 }
                 ];
-
             $scope.user = {
                 name: "",
                 profile: "assets/img/yong.jpg",
                 graph: "",
                 uid: ""
             };
-
+            $scope.stats = "";
             $scope.currentUser = angular.copy($scope.user);
             $scope.users = [];
             $scope.switchUser = function(user){
                 $scope.currentUser = user;
                 authenticate.draw(user.uid);
+                $scope.stats = vis.getStats();
             };
-
             $scope.addUser = function(userObject){
               var usr = angular.copy($scope.user);
               usr.uid = userObject.access_token;
@@ -149,13 +147,14 @@
                 $scope.$apply(function(){
                     $scope.addUser(userObject);
                 });
-                console.log('acces token', userObject.access_token);
+                console.log('access token', userObject.access_token);
                 
             });
             $scope.draw = function(){
-               token = $scope.cuser
-               authenticate.draw(token, $scope.graph); 
-            }
+               token = $scope.cuser;
+               authenticate.draw(token, $scope.graph);
+                $scope.stats = vis.getStats();
+            };
             $scope.login = function(){
                 authenticate.login();
             };

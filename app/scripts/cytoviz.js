@@ -57,7 +57,6 @@ module.exports.vis = function(token, graph) {
 }
 
 module.exports.getStats = function() {
-
 	return {
 		centrality: getBetweennessCentrality(),
 		degree: getHighestDegree()
@@ -76,6 +75,7 @@ function getBetweennessCentrality() {
 	highestCentrality = _.max(bCentralities, function(c) {return c.betweeness});
 
 	return {
+		image: highestCentrality.node.data('image'),
 		user: highestCentrality.node.data("name"),
 		value: highestCentrality.betweeness
 	}
@@ -93,6 +93,7 @@ function getHighestDegree() {
 	highestDegree = _.max(degrees, function(c) {return c.degree});
 
 	return {
+		image: highestDegree.node.data('image'),
 		user: highestDegree.node.data("name"),
 		value: highestDegree.degree
 	}
