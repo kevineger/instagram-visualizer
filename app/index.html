@@ -29,7 +29,6 @@
                 <div ng-repeat="layout in layouts" class="vert-offset-10 col-md-10 col-md-offset-1">
                     <button ng-click="changeLayout(layout.layout)"  class="btn btn-default col-md-8 col-md-offset-2" >{{layout.name}}</button>
                 </div>
-
             </div>
             <div class="col-md-12 panel">
                 <div id="users" class="col-md-12">
@@ -40,14 +39,13 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="user in users.reverse() ">
+                        <tr ng-repeat="user in users">
                             <td class="well">
                                 <div class="col-md-5">
                                     <img class="img-responsive img-circle" src="{{user.profile}}">
                                 </div>
                                 <div class="col-md-7">
                                     <h5>{{user.name}}</h5>
-                                    <small>{{user.uid}}</small>
                                     <button class="btn" value="switch" ng-click="switchUser(user)">Switch</button>
                                 </div>
                             </td>
@@ -61,9 +59,7 @@
             <h1 class="col-md-10 col-md-offset-1 pacifico text-center">Instagram Visualizer</h1>
             <div class="col-md-10 col-md-offset-1">
                 <div class="stats col-md-8 col-md-offset-2" id="stats">
-                    <h2>
-
-                    </h2>
+                    <h2></h2>
                 </div>
             </div>
             <div class="col-md-10 col-md-offset-1">
@@ -76,6 +72,20 @@
       </div>
     </div>
 </body>
+<script>
+    var isYongified = false;
+    function yongify(){
+        if(isYongified == false) {
+            document.getElementsByClassName('node').style.backgroundImage = "assets/img/yong.png";
+            document.getElementsByClassName('img-responsive').style.backgroundImage = "assets/img/yong.png";
+            isYongified = true;
+        }
+        else{
+            //remove yong
+        }
+    }
+</script>
+
 
 <script>
         var app = angular.module('myApp', []);
@@ -84,7 +94,6 @@
 
             var authenticate = require('./scripts/auth');
             var api = require('instawrapper');
-
 
             $scope.layouts =
                 [
@@ -96,6 +105,11 @@
                     name: 'Circle',
                     layout: 'circle'
                 },
+                {
+                    name: 'Concentric',
+                    layout: 'concentric'
+                },
+
                 {
                     name: 'Cose',
                     layout: 'cose'

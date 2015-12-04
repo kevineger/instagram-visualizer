@@ -34,6 +34,7 @@ module.exports.vis = function(token) {
 			{
 				selector: 'edge',
 				style: {
+					'curve-style': 'haystack',
 					'width': 2,
 					'line-color': '#ccc',
 					'target-arrow-color': '#ccc'
