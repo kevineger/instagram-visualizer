@@ -29,31 +29,20 @@
                 <div ng-repeat="layout in layouts" class="vert-offset-10 col-md-10 col-md-offset-1">
                     <button ng-click="changeLayout(layout.layout)"  class="btn btn-default col-md-8 col-md-offset-2" >{{layout.name}}</button>
                 </div>
-
-            </div>
-            <div class="col-md-12 panel">
-                <div id="users" class="col-md-12">
-                    <table class="table table-striped" >
-                        <thead>
-                        <tr>
-                            <th>Person</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="user in users.reverse() ">
-                            <td class="well">
-                                <div class="col-md-5">
-                                    <img class="img-responsive img-circle" src="{{user.profile}}">
-                                </div>
-                                <div class="col-md-7">
-                                    <h5>{{user.name}}</h5>
-                                    <small>{{user.uid}}</small>
-                                    <button class="btn" value="switch" ng-click="switchUser(user)">Switch</button>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                <div class="vert-offset-10 col-md-10 col-md-offset-1">
+                    <select ng-model="graph" class="form-control">
+                        <option ng-repeat="graph in graphs" value="{{graph}}">{{graph}}</option>
+                    </select>
+                </div>
+                <div class="vert-offset-f10 col-md-10 col-md-offset-1">
+                    <select ng-model="cuser" class="form-control">
+                        <option ng-repeat="user in users" value="{{user.uid}}">{{user.name}}</option>
+                    </select>
+                </div>
+                <div class="vert-offset-10 col-md-10 col-md-offset-1">
+                    <button class="btn btn-blo" ng-click="draw()">
+                        Graph!
+                    </button>
                 </div>
             </div>
         </div>
@@ -80,11 +69,16 @@
 <script>
         var app = angular.module('myApp', []);
         var vis = require('./scripts/cytoviz');
+        var _ = require('underscore');
         app.controller('usersCtrl', ['$scope', function($scope){
 
             var authenticate = require('./scripts/auth');
             var api = require('instawrapper');
-
+            
+            $scope.graphs = [
+                'Feed',
+                'Follow'
+            ];
 
             $scope.layouts =
                 [
@@ -139,8 +133,12 @@
                     $scope.addUser(userObject);
                 });
                 console.log('acces token', userObject.access_token);
-                authenticate.draw(userObject.access_token);
+                
             });
+            $scope.draw = function(){
+               token = $scope.cuser
+               authenticate.draw(token, $scope.graph); 
+            }
             $scope.login = function(){
                 authenticate.login();
             };

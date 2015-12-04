@@ -1,10 +1,19 @@
 var cytoscape = require('cytoscape');
-var transformer = require('./transformers/cytoviztransformer2');
+var t1 = require('./transformers/cytoviztransformer');
+var t2 = require('./transformers/cytoviztransformer2');
 var instwrapper = require('instawrapper');
 var graph;
-module.exports.vis = function(token) {
+module.exports.vis = function(token, graph) {
 	console.log("Hit Nodes Dump");
 	instwrapper.authorize(token);
+	var transformer;
+
+	if(graph === 'Feed') {
+		transformer = t2;
+	}else{
+		transformer = t1;
+	}
+
 	transformer.transform(function(data) {
 		var options = {
 			name: 'cose'

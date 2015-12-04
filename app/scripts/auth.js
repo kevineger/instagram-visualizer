@@ -73,8 +73,8 @@ function login(){
 }
 exports.login = login;
     
-function draw(uid){
-    vis.vis(uid);
+function draw(uid, graph){
+    vis.vis(uid,graph);
 }
 exports.afterAuthCallback = function(callback){
     authCallback = callback;
