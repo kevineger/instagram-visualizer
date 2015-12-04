@@ -19,6 +19,10 @@ body{
     color: black;
 }
 
+#stats{
+    overflow-y: auto;
+;
+}
 button{
     padding: 10px;
 }

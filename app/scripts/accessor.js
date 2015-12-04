@@ -57,7 +57,7 @@ exports.getFollowNetwork = function(callback) {
 exports.getNewsFeedLikeNetwork = function(callback) {
   instawrapper.getFollows().then(function(users) {
     const userMediaQueries = users.map(function(user) {
-      return instawrapper.getRecentMedia(user.id, {count: 3})
+      return instawrapper.getRecentMedia(user.id, {count: 1})
       .then(function(newsFeedPosts) {
         const posts = newsFeedPosts.data.reduce(function(previous, post) {
           if (post.likes.count > 1000) {
