@@ -5,12 +5,12 @@ var instwrapper = require('instawrapper');
 var _ = require('underscore');
 
 var graph;
-module.exports.vis = function(token, graph) {
+module.exports.vis = function(token, graphType) {
 	console.log("Hit Nodes Dump");
 	instwrapper.authorize(token);
 	var transformer;
 
-	if(graph === 'Feed') {
+	if(graphType === 'Feed') {
 		transformer = t2;
 	}else{
 		transformer = t1;
@@ -99,6 +99,7 @@ function getHighestDegree() {
 }
 
 module.exports.changeLayout = function(layout) {
+	console.log(layout);
 	graph.layout({name: layout});
 	console.log(vis.getStats());
 }
