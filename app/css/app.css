@@ -18,6 +18,10 @@ body{
     font-size: 12px;
     color: black;
 }
+
+button{
+    padding: 10px;
+}
 .vert-offset-10{
     margin-top: 10px;
 }
