@@ -17,24 +17,17 @@
 <div ng-app="myApp" class="container-fluid">
     <div class="row" ng-controller="usersCtrl">
         <div class="col-md-4 left-panel"  id="">
-            <div class="col-md-12 panel vert-offset-10">
-                <div class="col-md-12 vert-offset-10">
-                    <div class="col-md-12">
-                        <h3 class="text-center pacifico" >Welcome!</h3>
-                        <h5 class="text-center">{{currentUser.name}}</h5>
-                        <button class="col-md-8 col-md-offset-2 btn btn-primary" ng-click="login()">Login</button>
-                    </div>
-                    <br>
-                </div>
-                <div ng-repeat="layout in layouts" ng-show="stats.centrality.image" class="vert-offset-10 col-md-10 col-md-offset-1">
-                    <button ng-click="changeLayout(layout.layout)"  class="btn btn-default col-md-8 col-md-offset-2" >{{layout.name}}</button>
-                </div>
+            <div class="col-md-12 panel vert-offset-10" style="padding-bottom: 20px;">
+                <div class="vert-offset-10 col-md-10 col-md-offset-1">
+                  <h1 class="text-center pacifico" >Welcome!</h1>
+                  <h5 class="text-center">{{currentUser.name}}</h5>    
+                </div>            
                 <div class="vert-offset-10 col-md-10 col-md-offset-1" ng-show="users.length > 0 ">
                     <select ng-model="graph" class="form-control">
                         <option ng-repeat="graph in graphs" value="{{graph}}">{{graph}}</option>
                     </select>
                 </div>
-                <div class="vert-offset-f10 col-md-10 col-md-offset-1" ng-show="users.length >0">
+                <div class="vert-offset-10 col-md-10 col-md-offset-1" ng-show="users.length >0">
                     <select ng-model="cuser" class="form-control">
                         <option ng-repeat="user in users" value="{{user.uid}}">{{user.name}}</option>
                     </select>
@@ -42,16 +35,28 @@
                 <div class="vert-offset-10 col-md-10 col-md-offset-1" ng-show="users.length >0">
                     <button class="btn btn-block btn-default" ng-click="draw()">
                         Graph!
-                    </button>
+                    </button>            
+                </div>
+                <div class="vert-offset-10 col-md-10 col-md-offset-1" ng-show="stats.centrality.image">
+                  <hr/>
+                  <h5 class="text-center">Change Layout</h5>
+                  <div ng-repeat="layout in layouts" class="vert-offset-10 col-md-5 col-md-offset-1">
+                      <button ng-click="changeLayout(layout.layout)"  class="btn btn-default col-md-12" >{{layout.name}}</button>
+                  </div>
+                </div>
+                <div class="vert-offset-10 col-md-10 col-md-offset-1">
+                  <hr/>
+                  <button class="btn btn-primary btn-block" ng-click="login()">{{ users.length ? 'Log in another account' : 'Login'}}</button>
                 </div>
             </div>
+            
 
             <div class="col-md-12 panel" ng-show="stats.centrality.image">
                 <div id="users" class="col-md-12">
                     <table class="table table-striped" >
                         <thead>
                         <tr>
-                            <th>Stats</th>
+                            <th style="text-align:center;"><h5>Stats</h5></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -83,7 +88,7 @@
             </div>
         </div>
         <div class="col-md-8 right-panel">
-            <h1 class="col-md-10 col-md-offset-1 pacifico text-center">Instagram Visualizer</h1>
+            <h1 class="col-md-10 col-md-offset-1 pacifico text-center">Instagram <span ng-click="toggleYongMode()">V</span>isualizer</h1>
             <div class="col-md-12" style="position: relative; height: 500px">
                 <div class="graph" id="graph" style="position: absolute">
 
@@ -96,6 +101,7 @@
                 </div>
                 <img src="assets/img/loading-gif.gif" width="100px" style="top: 45%; -webkit-opacity: 0.5;position: absolute;right: 45%;" ng-show="graphLoading">
             </div>
+
         </div>
       </div>
     </div>
@@ -218,6 +224,9 @@
                 });
               
             });
+            $scope.toggleYongMode = function(){
+              vis.toggleYongMode();
+            }
             $scope.draw = function(){
                token = $scope.cuser;
                $scope.nodeToolTip = false;

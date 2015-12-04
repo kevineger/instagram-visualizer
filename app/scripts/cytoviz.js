@@ -38,8 +38,7 @@ module.exports.vis = function(token, graphType) {
 				style: {
 					// 'background-image':'http://cosc.ok.ubc.ca/__shared/assets/gao9404.jpg',
 					'background-image':'data(image)',
-					'background-fit':'cover',
-					'label': 'data(name)'
+					'background-fit':'cover'
 				}
 			},
 
@@ -47,18 +46,14 @@ module.exports.vis = function(token, graphType) {
 				selector: 'edge',
 				style: {
 					'curve-style': 'haystack',
-					'width': 2,
+					'width': 1,
 					'line-color': '#ccc',
 					'target-arrow-color': '#ccc'
 				}
 			}
 			]
 		});	
-		
-		graph.on('mousemove','node', function(event){
-		});
-
-	})
+	});
 }
 
 module.exports.getStats = function() {
@@ -115,4 +110,35 @@ module.exports.changeLayout = function(layout) {
 }
 exports.afterDrawCallback = function(callback){
 	afterDrawCallback = callback;
+}
+var yongMode = false;
+exports.toggleYongMode = function(){
+  yongMode = !yongMode;
+  var backgroundImage;
+  if (yongMode) {
+    backgroundImage = 'http://cosc.ok.ubc.ca/__shared/assets/gao9404.jpg';
+  } else {
+    backgroundImage = 'data(image)';
+  }
+  var style = [ // the stylesheet for the graph
+      {
+        selector: 'node',
+        style: {
+          // 'background-image':'http://cosc.ok.ubc.ca/__shared/assets/gao9404.jpg',
+          'background-image': backgroundImage,
+          'background-fit':'cover'
+        }
+      },
+      
+      {
+        selector: 'edge',
+        style: {
+          'curve-style': 'haystack',
+          'width': 1,
+          'line-color': '#ccc',
+          'target-arrow-color': '#ccc'
+        }
+      }
+  ];
+  graph.style(style);
 }
