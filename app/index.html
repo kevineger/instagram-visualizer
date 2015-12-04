@@ -50,9 +50,7 @@
             <h1 class="col-md-10 col-md-offset-1 pacifico text-center">Instagram Visualizer</h1>
             <div class="col-md-10 col-md-offset-1">
                 <div class="stats col-md-8 col-md-offset-2" id="stats">
-                    <h2>
-
-                    </h2>
+                    <h2></h2>
                 </div>
             </div>
             <div class="col-md-10 col-md-offset-1">
@@ -65,6 +63,20 @@
       </div>
     </div>
 </body>
+<script>
+    var isYongified = false;
+    function yongify(){
+        if(isYongified == false) {
+            document.getElementsByClassName('node').style.backgroundImage = "assets/img/yong.png";
+            document.getElementsByClassName('img-responsive').style.backgroundImage = "assets/img/yong.png";
+            isYongified = true;
+        }
+        else{
+            //remove yong
+        }
+    }
+</script>
+
 
 <script>
         var app = angular.module('myApp', []);
@@ -90,6 +102,11 @@
                     name: 'Circle',
                     layout: 'circle'
                 },
+                {
+                    name: 'Concentric',
+                    layout: 'concentric'
+                },
+
                 {
                     name: 'Cose',
                     layout: 'cose'
