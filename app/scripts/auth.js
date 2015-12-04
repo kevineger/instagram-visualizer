@@ -7,6 +7,7 @@ var instawrapper = require('instawrapper');
 var authUrl = "https://api.instagram.com/oauth/authorize/?client_id=20020af689ea4d66a623067196c2987a&redirect_uri=http%3A%2F%2Flocalhost%3A8000&response_type=code";
 
 var authCallback;
+var drawCallback;
 
 function setUserID(uid){
     userID = uid;
@@ -38,7 +39,7 @@ function login(){
             //TODO: Something Useful Here
         }
     });
-    
+
     /**
     * Method that returns the user token given the first return from the twitter API
     * @param raw_code the first return from the twitter API
@@ -79,4 +80,5 @@ function draw(uid, graph){
 exports.afterAuthCallback = function(callback){
     authCallback = callback;
 }
+
 exports.draw = draw;

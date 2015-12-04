@@ -3,14 +3,14 @@ var t1 = require('./transformers/cytoviztransformer');
 var t2 = require('./transformers/cytoviztransformer2');
 var instwrapper = require('instawrapper');
 var _ = require('underscore');
-
+var afterDrawCallback;
 var graph;
-module.exports.vis = function(token, graph) {
+module.exports.vis = function(token, graphType) {
 	console.log("Hit Nodes Dump");
 	instwrapper.authorize(token);
 	var transformer;
 
-	if(graph === 'Feed') {
+	if(graphType === 'Feed') {
 		transformer = t2;
 	}else{
 		transformer = t1;
@@ -31,6 +31,7 @@ module.exports.vis = function(token, graph) {
 				edges: data.edges,
 			},
 			layout: options,
+			ready: afterDrawCallback,
 			style: [ // the stylesheet for the graph
 			{
 				selector: 'node',
@@ -100,6 +101,10 @@ function getHighestDegree() {
 }
 
 module.exports.changeLayout = function(layout) {
+	console.log(layout);
 	graph.layout({name: layout});
 	console.log(vis.getStats());
+}
+exports.afterDrawCallback = function(callback){
+	afterDrawCallback = callback;
 }
