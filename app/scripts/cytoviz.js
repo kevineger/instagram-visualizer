@@ -1,5 +1,5 @@
 var cytoscape = require('cytoscape');
-var transformer = require('./transformers/cytoviztransformer');
+var transformer = require('./transformers/cytoviztransformer2');
 var instwrapper = require('instawrapper');
 var graph;
 module.exports.vis = function(token) {
