@@ -84,12 +84,16 @@
         </div>
         <div class="col-md-8 right-panel">
             <h1 class="col-md-10 col-md-offset-1 pacifico text-center">Instagram Visualizer</h1>
-            <div class="col-md-10 col-md-offset-1">
-                <div class="graph" id="graph"></div>
+            <div class="col-md-12">
+                <div class="graph" id="graph" style="positon: relative">
+                    <div id="tooltip" ng-show="nodeToolTip" style="z-index: 50; text-align: center; position: absolute; background: rgba(80, 80, 80, 0.57); right: 5px; top: 5px;height: 300px; width: 250px;">
+                        <img src="{{nodeToolTip.image}}" class="img-circle" style="padding-top: 10px;">
+                        <ul style="text-align: left">
+                            <li ng-repeat="tip in nodeToolTip.tips">{{tip.name }} : {{tip.value}}</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <script>
-                
-            </script>
         </div>
       </div>
     </div>
@@ -117,6 +121,7 @@
 
             var authenticate = require('./scripts/auth');
             var api = require('instawrapper');
+            $scope.nodeToolTip = false;
             $scope.graphs = [
                 'Feed',
                 'Follow'
@@ -183,10 +188,24 @@
                 $scope.$apply(function(){
                     $scope.stats = vis.getStats();
                 });
+                vis.onNodeHover(function(event){
+                    console.log(event);
+                    var target = event.cyTarget;
+                    $scope.$apply(function(){
+                        $scope.nodeToolTip = {}
+                        $scope.nodeToolTip.tips = [];
+                        $scope.nodeToolTip.tips.push({name: 'Name', value: target.data('name')});
+                        $scope.nodeToolTip.tips.push({name: 'Degree', value: target.degree()});
+                        $scope.nodeToolTip.tips.push({name: 'Betweeness Centrality ', value: vis.getGraph().$().bc().betweennessNormalized('#'+target.data('id'))});
+                        $scope.nodeToolTip.tips.push({name: 'Degree Centrality', value: vis.getGraph().$().dcn().degree('#'+target.data('id'))});
+                        $scope.nodeToolTip.image = target.data('image')
+                    });
+                });
                 console.log('done drawing');
             });
             $scope.draw = function(){
                token = $scope.cuser;
+               $scope.nodeToolTip = false;
                authenticate.draw(token, $scope.graph);
             };
             $scope.login = function(){

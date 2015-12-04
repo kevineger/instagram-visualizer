@@ -54,6 +54,10 @@ module.exports.vis = function(token, graphType) {
 			}
 			]
 		});	
+		
+		graph.on('mousemove','node', function(event){
+		});
+
 	})
 }
 
@@ -63,7 +67,9 @@ module.exports.getStats = function() {
 		degree: getHighestDegree()
 	};
 }
-
+module.exports.getGraph = function(){
+	return graph;
+}
 function getBetweennessCentrality() {
 	var bc = graph.$().bc();
 	var bCentralities = [];
@@ -99,7 +105,9 @@ function getHighestDegree() {
 		value: highestDegree.degree
 	}
 }
-
+module.exports.onNodeHover = function(hoverCallback){
+	graph.on('mousemove', 'node', hoverCallback);
+};
 module.exports.changeLayout = function(layout) {
 	console.log(layout);
 	graph.layout({name: layout});
