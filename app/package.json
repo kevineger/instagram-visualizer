@@ -28,6 +28,7 @@
     "cytoscape": "^2.5.1",
     "d3": "^3.5.8",
     "instawrapper": "0.0.11",
+    "request-promise": "^1.0.2",
     "underscore": "^1.8.3",
     "vis": "^4.9.0",
     "xmlbuilder": "^4.1.0"
