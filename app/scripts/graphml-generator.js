@@ -1,5 +1,5 @@
 var builder = require('xmlbuilder');
-var transformer = require('./transformers/d3Transformer');
+var transformer = require('./transformers/cytoviztransformer');
 var fs = require('fs');
 
 var xmlString;
@@ -14,39 +14,41 @@ var root = builder.create('graphml')
 .up()
 .ele('graph', {'edgedefault': 'directed'});
 
-transformer.transform(function(data) {
-
-    // Array of nodes
-    var nodes = data.nodes;
-
-    // Array of edges
-    var edges = data.edges;
-
-    // Add all nodes
-    nodes.forEach(addNodeToGraphml);
-    // Add all edges
-    edges.forEach(addEdgeToGraphml);
-
-    xmlString = root.end({ pretty: true, indent: '  ', newline: '\n' });
-
-    // Write Graphml file to user's downloads folder
-    downloadsDir = process.env.HOME + "/Downloads/"
-    fs.writeFile(downloadsDir + 'instagram.graphml', xmlString, function(err) {
-    	if(err) {
-    		return console.log(err);
-    	}
-
-    	console.log("Graphml file saved as instagram.graphml to " + downloadsDir);
-    }); 
-
-})
+// module.exports.genGraphMl = function() {
+	transformer.transform(function(data) {
+	
+		// Array of nodes
+		var nodes = data.nodes;
+	
+		// Array of edges
+		var edges = data.edges;
+	
+		// Add all nodes
+		nodes.forEach(addNodeToGraphml);
+		// Add all edges
+		edges.forEach(addEdgeToGraphml);
+	
+		xmlString = root.end({ pretty: true, indent: '  ', newline: '\n' });
+	
+		// Write Graphml file to user's downloads folder
+		var downloadsDir = getUserHome() + "/Downloads/"
+		fs.writeFile(downloadsDir + 'instagram.graphml', xmlString, function(err) {
+			if(err) {
+				return console.log(err);
+			}
+	
+			console.log("Graphml file saved as instagram.graphml to " + downloadsDir);
+		}); 
+	
+	})
+// }
 
 function addNodeToGraphml(node)
 {
-	console.log("Adding node to graphml" + node.id)
+	console.log("Adding node to graphml" + node.data.id)
 	// Add node with id=InstagramID and name=username
-	root.ele('node', {'id': node.id})
-	.ele('data', {'key': 'label'}, node.name)			
+	root.ele('node', {'id': node.data.id})
+	.ele('data', {'key': 'label'}, node.data.name)			
 	.insertAfter('data', {'key': 'weight'}, '1.0')
 	// Reset pointer to graph root node
 	.up().up();
@@ -54,10 +56,14 @@ function addNodeToGraphml(node)
 
 function addEdgeToGraphml(edge)
 {
-	console.log("Adding edge to graphml" + edge.to + " -> " + edge.from);
+	console.log("Adding edge to graphml" + edge.data.target + " -> " + edge.data.source);
 	// Add edge with corresponding soure and target ids
-	root.ele('edge', {'source': edge.to, 'target': edge.from})
-	.ele('data', {'key': 'label'}, edge.to + ' to ' + edge.from)
+	root.ele('edge', {'source': edge.data.source, 'target': edge.data.target})
+	.ele('data', {'key': 'label'}, edge.data.target + ' to ' + edge.data.source)
 	// Reset pointer to graph root node
 	.up().up();
+}
+
+function getUserHome() {
+  return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
 }

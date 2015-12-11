@@ -37,6 +37,11 @@
                         Graph!
                     </button>            
                 </div>
+                <div class="vert-offset-10 col-md-10 col-md-offset-1" ng-show="users.length >0">
+                    <button class="btn btn-block btn-default" ng-click="genGML()" ng-disabled="noGMLButton">
+                        Generate GrapmML
+                    </button>            
+                </div>                
                 <div class="vert-offset-10 col-md-10 col-md-offset-1" ng-show="stats.centrality.image">
                   <hr/>
                   <h5 class="text-center">Change Layout</h5>
@@ -129,6 +134,9 @@
         var vis = require('./scripts/cytoviz');
         var _ = require('underscore');
         
+        // stuff so that graphml-generator can see too
+        // require('./scripts/transformers/d3Transformer');
+        
         // shows the loading thing on the graph
        
         
@@ -210,6 +218,7 @@
                 });
                 $scope.$apply(function(){
                     $scope.graphLoading = false;
+                    $scope.noGMLButton = false;
                 });
                 //setup a on hover for this new graph
                 vis.onNodeHover(function(event){
@@ -245,6 +254,11 @@
                $scope.graphLoading = true;
                authenticate.draw(token, $scope.graph);
             };
+            $scope.genGML = function() {
+                require('./scripts/graphml-generator');
+                console.log("what the heck");
+            };
+            $scope.noGMLButton = true;
             $scope.login = function(){
                 authenticate.login();
             };
